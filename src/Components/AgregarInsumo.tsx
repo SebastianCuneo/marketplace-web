@@ -1,5 +1,5 @@
 // Importaciones de React y hooks
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // Componentes de interfaz reutilizables (shadcn/ui)
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -11,27 +11,72 @@ import { ArrowLeft } from 'lucide-react';
 // Sistema de notificaciones toast
 import { toast } from 'sonner';
 import React from 'react';
+import { InsumosCatalogo, useInsumos, useAuth, CATEGORIES_ARRAY, UNITS_OPTIONS } from '../core';
 
 // Interface que define las props que recibe el componente
 interface AgregarInsumoProps {
-  onVolver: () => void; // Funci�n para volver a la pantalla anterior
+  onVolver: () => void; // Función para volver a la pantalla anterior
+  insumoToEdit?: InsumosCatalogo | null; // Insumo a editar (opcional)
 }
 
-// Componente para agregar un nuevo insumo al cat�logo
-export function AgregarInsumo({ onVolver }: AgregarInsumoProps) {
+// Componente para agregar/editar un insumo al catálogo
+export function AgregarInsumo({ onVolver, insumoToEdit }: AgregarInsumoProps) {
+  const { addSupply, updateSupply } = useInsumos();
+  const { user } = useAuth();
+  
   // Estados para manejar los datos del formulario
   const [nombre, setNombre] = useState(''); // Nombre del insumo
-  const [categoria, setCategoria] = useState(''); // Categor�a del insumo
+  const [categoria, setCategoria] = useState(''); // Categoría del insumo
   const [unidad, setUnidad] = useState(''); // Unidad de medida
   const [precioUnitario, setPrecioUnitario] = useState(''); // Precio por unidad
   const [stock, setStock] = useState(''); // Cantidad en stock
+
+  // Si hay un insumo para editar, cargar sus datos
+  useEffect(() => {
+    if (insumoToEdit) {
+      setNombre(insumoToEdit.nombre);
+      setCategoria(insumoToEdit.categoria);
+      setUnidad(insumoToEdit.unidad);
+      setPrecioUnitario(insumoToEdit.precioUnitario.toString());
+      setStock(insumoToEdit.stock.toString());
+    }
+  }, [insumoToEdit]);
 
   const handleGuardar = () => {
     if (!nombre || !categoria || !unidad || !precioUnitario || !stock) {
       toast.error('Por favor completa todos los campos');
       return;
     }
-    toast.success('Insumo agregado al cat�logo exitosamente');
+    
+    if (!user) {
+      toast.error('Debes estar logueado');
+      return;
+    }
+
+    if (insumoToEdit) {
+      // Modo edición
+      updateSupply(insumoToEdit.id, {
+        nombre,
+        categoria,
+        unidad,
+        precioUnitario: parseFloat(precioUnitario),
+        stock: parseInt(stock),
+      });
+      toast.success('Insumo actualizado exitosamente');
+    } else {
+      // Modo creación
+      const nuevoInsumo: InsumosCatalogo = {
+        id: `sup-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        proveedorId: user.id,
+        nombre,
+        categoria,
+        unidad,
+        precioUnitario: parseFloat(precioUnitario),
+        stock: parseInt(stock),
+      };
+      addSupply(nuevoInsumo);
+      toast.success('Insumo agregado al catálogo exitosamente');
+    }
     onVolver();
   };
 
@@ -49,8 +94,10 @@ export function AgregarInsumo({ onVolver }: AgregarInsumoProps) {
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
-            <h1 className="text-2xl">Agregar Insumo</h1>
-            <p className="text-gray-500">A�ade un nuevo insumo a tu cat�logo</p>
+            <h1 className="text-2xl">{insumoToEdit ? 'Editar Insumo' : 'Agregar Insumo'}</h1>
+            <p className="text-gray-500">
+              {insumoToEdit ? 'Modifica los datos del insumo' : 'Añade un nuevo insumo a tu catálogo'}
+            </p>
           </div>
         </div>
 
@@ -70,19 +117,17 @@ export function AgregarInsumo({ onVolver }: AgregarInsumoProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="categoria">Categor�a *</Label>
+                <Label htmlFor="categoria">Categoría *</Label>
                 <Select value={categoria} onValueChange={setCategoria}>
-                  <SelectTrigger className="rounded-lg">
-                    <SelectValue placeholder="Selecciona una categor�a" />
+                  <SelectTrigger className="rounded-lg bg-white">
+                    <SelectValue placeholder="Selecciona una categoría" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Construcci�n">Construcci�n</SelectItem>
-                    <SelectItem value="Electricidad">Electricidad</SelectItem>
-                    <SelectItem value="Plomer�a">Plomer�a</SelectItem>
-                    <SelectItem value="Pintura">Pintura</SelectItem>
-                    <SelectItem value="Revestimientos">Revestimientos</SelectItem>
-                    <SelectItem value="Herramientas">Herramientas</SelectItem>
-                    <SelectItem value="Otros">Otros</SelectItem>
+                  <SelectContent className="bg-white">
+                    {CATEGORIES_ARRAY.map((cat) => (
+                      <SelectItem key={cat} value={cat} className="bg-white hover:bg-gray-100">
+                        {cat}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -90,18 +135,15 @@ export function AgregarInsumo({ onVolver }: AgregarInsumoProps) {
               <div className="space-y-2">
                 <Label htmlFor="unidad">Unidad de medida *</Label>
                 <Select value={unidad} onValueChange={setUnidad}>
-                  <SelectTrigger className="rounded-lg">
+                  <SelectTrigger className="rounded-lg bg-white">
                     <SelectValue placeholder="Selecciona unidad" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="unidad">Unidad</SelectItem>
-                    <SelectItem value="kg">Kilogramo (kg)</SelectItem>
-                    <SelectItem value="litro">Litro</SelectItem>
-                    <SelectItem value="metro">Metro</SelectItem>
-                    <SelectItem value="m�">Metro cuadrado (m�)</SelectItem>
-                    <SelectItem value="saco">Saco</SelectItem>
-                    <SelectItem value="caja">Caja</SelectItem>
-                    <SelectItem value="paquete">Paquete</SelectItem>
+                  <SelectContent className="bg-white">
+                    {UNITS_OPTIONS.map((unit) => (
+                      <SelectItem key={unit.value} value={unit.value} className="bg-white hover:bg-gray-100">
+                        {unit.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -109,7 +151,7 @@ export function AgregarInsumo({ onVolver }: AgregarInsumoProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="precio">Precio unitario (�) *</Label>
+                <Label htmlFor="precio">Precio unitario ($) *</Label>
                 <Input
                   id="precio"
                   type="number"
@@ -142,10 +184,10 @@ export function AgregarInsumo({ onVolver }: AgregarInsumoProps) {
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="mb-1">{nombre}</h3>
-                  <p className="text-sm text-gray-600">{categoria || 'Sin categor�a'}</p>
+                  <p className="text-sm text-gray-600">{categoria || 'Sin categoría'}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xl text-[#2D7CF6]">�{parseFloat(precioUnitario).toFixed(2)}</p>
+                  <p className="text-xl text-[#2D7CF6]">${parseFloat(precioUnitario).toFixed(2)}</p>
                   <p className="text-sm text-gray-600">Stock: {stock} {unidad}</p>
                 </div>
               </div>
@@ -165,7 +207,7 @@ export function AgregarInsumo({ onVolver }: AgregarInsumoProps) {
               onClick={handleGuardar}
               className="flex-1 bg-[#2D7CF6] hover:bg-[#1e5fd4] rounded-lg"
             >
-              Guardar insumo
+              {insumoToEdit ? 'Actualizar insumo' : 'Guardar insumo'}
             </Button>
           </div>
         </Card>

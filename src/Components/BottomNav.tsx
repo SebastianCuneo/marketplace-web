@@ -22,7 +22,7 @@ export function BottomNav({ role, activeTab, onTabChange }: BottomNavProps) {
   ];
 
   const getProveedorInsumosItems = () => [
-    { id: 'catalogo', icon: Package, label: 'Cat�logo' },
+    { id: 'catalogo', icon: Package, label: 'Catálogo' },
     { id: 'ofertas', icon: FileText, label: 'Ofertas' },
     { id: 'perfil', icon: User, label: 'Perfil' },
   ];

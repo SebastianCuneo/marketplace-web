@@ -25,7 +25,7 @@ export function DetalleServicio({ servicio, onVolver, onComparar }: DetalleServi
 
   const handleSeleccionarCotizacion = (cotizacionId: string) => {
     selectQuotation(servicio.id, cotizacionId);
-    toast.success('Cotizaci�n seleccionada exitosamente');
+    toast.success('Cotización seleccionada exitosamente');
   };
 
   return (
@@ -50,7 +50,7 @@ export function DetalleServicio({ servicio, onVolver, onComparar }: DetalleServi
         {/* Service Details */}
         <Card className="p-6 space-y-4 rounded-lg">
           <div className="space-y-3">
-            <h3>Descripci�n</h3>
+            <h3>Descripción</h3>
             <p className="text-gray-600">{servicio.descripcion}</p>
           </div>
 
@@ -58,7 +58,7 @@ export function DetalleServicio({ servicio, onVolver, onComparar }: DetalleServi
             <div className="flex items-center gap-2 text-gray-600">
               <MapPin className="w-5 h-5 text-[#2D7CF6]" />
               <div>
-                <p className="text-sm text-gray-500">Ubicaci�n</p>
+                <p className="text-sm text-gray-500">Ubicación</p>
                 <p>{servicio.direccion}, {servicio.ciudad}</p>
               </div>
             </div>
@@ -106,9 +106,9 @@ export function DetalleServicio({ servicio, onVolver, onComparar }: DetalleServi
             {cotizaciones.length === 0 ? (
               <Card className="p-12 text-center rounded-lg">
                 <Package className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500">A�n no hay cotizaciones para este servicio</p>
+                <p className="text-gray-500">Aún no hay cotizaciones para este servicio</p>
                 <p className="text-sm text-gray-400 mt-2">
-                  Los proveedores comenzar�n a enviar cotizaciones pronto
+                  Los proveedores comenzarán a enviar cotizaciones pronto
                 </p>
               </Card>
             ) : (
@@ -136,7 +136,7 @@ export function DetalleServicio({ servicio, onVolver, onComparar }: DetalleServi
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl text-[#2D7CF6]">�{cotizacion.precio.toLocaleString()}</p>
+                        <p className="text-2xl text-[#2D7CF6]">${cotizacion.precio.toLocaleString()}</p>
                         <p className="text-sm text-gray-500">{cotizacion.plazo}</p>
                       </div>
                     </div>
@@ -164,7 +164,7 @@ export function DetalleServicio({ servicio, onVolver, onComparar }: DetalleServi
                           <ul className="space-y-1">
                             {cotizacion.itemsExcluidos.map((item, idx) => (
                               <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
-                                <span className="w-4 h-4 flex items-center justify-center">�</span>
+                                <span className="w-4 h-4 flex items-center justify-center">✕</span>
                                 {item}
                               </li>
                             ))}
@@ -176,7 +176,7 @@ export function DetalleServicio({ servicio, onVolver, onComparar }: DetalleServi
                     {servicio.cotizacionSeleccionada === cotizacion.id ? (
                       <Badge className="w-full justify-center bg-green-100 text-green-700">
                         <CheckCircle className="w-4 h-4 mr-2" />
-                        Cotizaci�n seleccionada
+                        Cotización seleccionada
                       </Badge>
                     ) : (
                       <Button
@@ -184,7 +184,7 @@ export function DetalleServicio({ servicio, onVolver, onComparar }: DetalleServi
                         className="w-full bg-[#2D7CF6] hover:bg-[#1e5fd4] rounded-lg"
                         disabled={cotizacion.estado === 'retirada'}
                       >
-                        Seleccionar esta cotizaci�n
+                        Seleccionar esta cotización
                       </Button>
                     )}
                   </Card>
@@ -197,7 +197,7 @@ export function DetalleServicio({ servicio, onVolver, onComparar }: DetalleServi
             {ofertas.length === 0 ? (
               <Card className="p-12 text-center rounded-lg">
                 <Package className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500">A�n no hay ofertas de insumos</p>
+                <p className="text-gray-500">Aún no hay ofertas de insumos</p>
               </Card>
             ) : (
               ofertas.map((oferta) => (
@@ -209,7 +209,7 @@ export function DetalleServicio({ servicio, onVolver, onComparar }: DetalleServi
                         {new Date(oferta.fechaEnvio).toLocaleDateString('es-ES')}
                       </p>
                     </div>
-                    <p className="text-2xl text-[#2D7CF6]">�{oferta.total.toFixed(2)}</p>
+                    <p className="text-2xl text-[#2D7CF6]">${oferta.total.toFixed(2)}</p>
                   </div>
 
                   <div className="space-y-2 mb-4">
@@ -218,10 +218,10 @@ export function DetalleServicio({ servicio, onVolver, onComparar }: DetalleServi
                         <div className="flex-1">
                           <p>{item.nombre}</p>
                           <p className="text-sm text-gray-500">
-                            {item.cantidad} � �{item.precioUnitario}
+                            {item.cantidad} × ${item.precioUnitario}
                           </p>
                         </div>
-                        <p>�{item.subtotal.toFixed(2)}</p>
+                        <p>${item.subtotal.toFixed(2)}</p>
                       </div>
                     ))}
                   </div>

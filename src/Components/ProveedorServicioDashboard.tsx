@@ -6,7 +6,7 @@ import { Input } from './ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Search, MapPin, Calendar, Package, Filter } from 'lucide-react';
-import { Servicio } from '../core';
+import { Servicio, CATEGORIES_ARRAY } from '../core';
 import React from 'react';
 import { useServices } from '../core';
 import { SERVICE_STATES } from '../core';
@@ -81,7 +81,7 @@ export function ProveedorServicioDashboard({
           onClick={() => onEnviarCotizacion(servicio)}
           className="flex-1 bg-[#2D7CF6] hover:bg-[#1e5fd4] rounded-lg"
         >
-          Enviar cotizaci�n
+          Enviar cotización
         </Button>
       </div>
     </Card>
@@ -114,20 +114,19 @@ export function ProveedorServicioDashboard({
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <Filter className="w-4 h-4" />
-                <span>Categor�a</span>
+                <span>Categoría</span>
               </div>
               <Select value={categoriaFiltro} onValueChange={setCategoriaFiltro}>
-                <SelectTrigger className="rounded-lg">
+                <SelectTrigger className="rounded-lg bg-white">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="todas">Todas las categor�as</SelectItem>
-                  <SelectItem value="construccion">Construcci�n</SelectItem>
-                  <SelectItem value="electricidad">Electricidad</SelectItem>
-                  <SelectItem value="plomeria">Plomer�a</SelectItem>
-                  <SelectItem value="pintura">Pintura</SelectItem>
-                  <SelectItem value="jardineria">Jardiner�a</SelectItem>
-                  <SelectItem value="limpieza">Limpieza</SelectItem>
+                <SelectContent className="bg-white">
+                  <SelectItem value="todas" className="bg-white hover:bg-gray-100">Todas las categorías</SelectItem>
+                  {CATEGORIES_ARRAY.map((cat) => (
+                    <SelectItem key={cat} value={cat.toLowerCase()} className="bg-white hover:bg-gray-100">
+                      {cat}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

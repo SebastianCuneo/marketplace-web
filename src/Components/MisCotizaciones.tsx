@@ -3,21 +3,51 @@ import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { ArrowLeft, FileText, Clock, CheckCircle, XCircle } from 'lucide-react';
-import { EstadoCotizacion } from '../core';
+import { EstadoCotizacion, Cotizacion } from '../core';
 import React from 'react';
 import { useAuth, useServices } from '../core';
+import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from './ui/alert-dialog';
 
 interface MisCotizacionesProps {
   onVolver: () => void;
+  onEditarCotizacion?: (cotizacion: Cotizacion) => void;
 }
 
-export function MisCotizaciones({ onVolver }: MisCotizacionesProps) {
+export function MisCotizaciones({ onVolver, onEditarCotizacion }: MisCotizacionesProps) {
   const { user } = useAuth();
-  const { state, services } = useServices();
+  const { state, services, dispatch } = useServices();
   const [filtroEstado, setFiltroEstado] = useState<EstadoCotizacion | 'todas'>('todas');
 
   // Filtrar cotizaciones del proveedor actual
   const misCotizaciones = state.quotes.filter(c => c.proveedorId === user?.id);
+  
+  const handleRetirarCotizacion = (cotizacionId: string) => {
+    // Actualizar el estado de la cotización a 'retirada'
+    const cotizacionesActualizadas = state.quotes.map(c => 
+      c.id === cotizacionId ? { ...c, estado: 'retirada' as EstadoCotizacion } : c
+    );
+    dispatch({ type: 'SET_QUOTES', payload: cotizacionesActualizadas });
+    toast.success('Cotización retirada exitosamente');
+  };
+  
+  const handleEditarCotizacion = (cotizacion: Cotizacion) => {
+    if (onEditarCotizacion) {
+      onEditarCotizacion(cotizacion);
+    } else {
+      toast.info('Funcionalidad de edición en desarrollo');
+    }
+  };
 
   const getEstadoBadge = (estado: EstadoCotizacion) => {
     const styles = {
@@ -148,7 +178,7 @@ export function MisCotizaciones({ onVolver }: MisCotizacionesProps) {
                     <div className="flex-1">
                       <h3 className="mb-1">{servicio?.titulo || 'Servicio'}</h3>
                       <p className="text-sm text-gray-500">
-                        {servicio?.categoria} � {servicio?.ciudad}
+                        {servicio?.categoria} • {servicio?.ciudad}
                       </p>
                     </div>
                     <Badge className={`${estadoInfo.bg} flex items-center gap-1`}>
@@ -160,14 +190,14 @@ export function MisCotizaciones({ onVolver }: MisCotizacionesProps) {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 p-4 bg-gray-50 rounded-lg">
                     <div>
                       <p className="text-sm text-gray-500 mb-1">Precio</p>
-                      <p className="text-xl text-[#2D7CF6]">�{cotizacion.precio.toLocaleString()}</p>
+                      <p className="text-xl text-[#2D7CF6]">${cotizacion.precio.toLocaleString()}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 mb-1">Plazo</p>
                       <p>{cotizacion.plazo}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500 mb-1">Fecha env�o</p>
+                      <p className="text-sm text-gray-500 mb-1">Fecha envío</p>
                       <p>{new Date(cotizacion.fechaEnvio).toLocaleDateString('es-ES')}</p>
                     </div>
                   </div>
@@ -194,7 +224,7 @@ export function MisCotizaciones({ onVolver }: MisCotizacionesProps) {
                       <ul className="space-y-1">
                         {cotizacion.itemsExcluidos.map((item, idx) => (
                           <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
-                            <span className="w-4 h-4 flex items-center justify-center">�</span>
+                            <span className="w-4 h-4 flex items-center justify-center">✕</span>
                             {item}
                           </li>
                         ))}
@@ -204,12 +234,39 @@ export function MisCotizaciones({ onVolver }: MisCotizacionesProps) {
 
                   {cotizacion.estado === 'enviada' && (
                     <div className="flex gap-2 mt-4 pt-4 border-t">
-                      <Button variant="outline" className="flex-1 rounded-lg">
-                        Editar cotizaci�n
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 rounded-lg"
+                        onClick={() => handleEditarCotizacion(cotizacion)}
+                      >
+                        Editar cotización
                       </Button>
-                      <Button variant="outline" className="flex-1 rounded-lg text-red-600 hover:text-red-700">
-                        Retirar cotizaci�n
-                      </Button>
+                      
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="outline" className="flex-1 rounded-lg text-red-600 hover:text-red-700">
+                            Retirar cotización
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent className="bg-white">
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>¿Retirar cotización?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Esta acción retirará tu cotización del servicio. El solicitante no podrá seleccionarla. 
+                              ¿Estás seguro de continuar?
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleRetirarCotizacion(cotizacion.id)}
+                              className="bg-red-600 hover:bg-red-700"
+                            >
+                              Sí, retirar
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
                   )}
                 </Card>

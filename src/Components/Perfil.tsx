@@ -36,7 +36,7 @@ export function Perfil({ role, onLogout }: PerfilProps) {
         {/* Header */}
         <div>
           <h1 className="text-2xl mb-1">Mi Perfil</h1>
-          <p className="text-gray-500">Gestiona tu informaci�n personal</p>
+          <p className="text-gray-500">Gestiona tu información personal</p>
         </div>
 
         {/* Profile Card */}
@@ -87,7 +87,7 @@ export function Perfil({ role, onLogout }: PerfilProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="telefono">Tel�fono</Label>
+              <Label htmlFor="telefono">Teléfono</Label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <Input
@@ -132,14 +132,14 @@ export function Perfil({ role, onLogout }: PerfilProps) {
         {/* Stats Card (for providers) */}
         {role !== ROLES.SOLICITANTE && (
           <Card className="p-6 rounded-lg">
-            <h3 className="mb-4">Estad�sticas</h3>
+            <h3 className="mb-4">Estadísticas</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="text-center p-4 bg-blue-50 rounded-lg">
                 <p className="text-2xl text-[#2D7CF6] mb-1">
                   {role === ROLES.PROVEEDOR_SERVICIO ? '12' : '45'}
                 </p>
                 <p className="text-sm text-gray-600">
-                  {role === ROLES.PROVEEDOR_SERVICIO ? 'Servicios realizados' : 'Insumos en cat�logo'}
+                  {role === ROLES.PROVEEDOR_SERVICIO ? 'Servicios realizados' : 'Insumos en catálogo'}
                 </p>
               </div>
               <div className="text-center p-4 bg-green-50 rounded-lg">
@@ -156,7 +156,7 @@ export function Perfil({ role, onLogout }: PerfilProps) {
 
         {/* Settings Card */}
         <Card className="p-6 rounded-lg">
-          <h3 className="mb-4">Configuraci�n</h3>
+          <h3 className="mb-4">Configuración</h3>
           <div className="space-y-3">
             <Button variant="outline" className="w-full justify-start rounded-lg">
               Notificaciones
@@ -168,7 +168,7 @@ export function Perfil({ role, onLogout }: PerfilProps) {
               Ayuda y soporte
             </Button>
             <Button variant="outline" className="w-full justify-start rounded-lg">
-              T�rminos y condiciones
+              Términos y condiciones
             </Button>
           </div>
         </Card>
@@ -180,7 +180,7 @@ export function Perfil({ role, onLogout }: PerfilProps) {
           className="w-full rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50"
         >
           <LogOut className="w-5 h-5 mr-2" />
-          Cerrar sesi�n
+          Cerrar sesión
         </Button>
       </div>
     </div>

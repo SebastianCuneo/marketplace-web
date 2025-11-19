@@ -10,8 +10,7 @@ import { toast } from 'sonner';
 import type { Insumo, Servicio } from '../core';
 import React from 'react';
 import { useAuth, useServices } from '../core';
-import { SERVICE_STATES } from '../core';
-import { SERVICE_CATEGORIES } from '../core';
+import { SERVICE_STATES, CATEGORIES_ARRAY } from '../core';
 
 interface PublicarServicioProps {
   onVolver: () => void;
@@ -62,7 +61,7 @@ export function PublicarServicio({ onVolver }: PublicarServicioProps) {
     // Validar insumos
     const insumosValidos = insumos.filter(i => i.nombre && i.cantidad > 0 && i.unidad);
     if (insumosValidos.length === 0) {
-      toast.error('Debes agregar al menos un insumo v�lido');
+      toast.error('Debes agregar al menos un insumo válido');
       return;
     }
     
@@ -118,10 +117,10 @@ export function PublicarServicio({ onVolver }: PublicarServicioProps) {
         <Card className="p-6 space-y-6 rounded-lg">
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="titulo">T�tulo del servicio *</Label>
+              <Label htmlFor="titulo">Título del servicio *</Label>
               <Input
                 id="titulo"
-                placeholder="ej. Remodelaci�n de cocina"
+                placeholder="ej. Remodelación de cocina"
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
                 className="rounded-lg"
@@ -129,7 +128,7 @@ export function PublicarServicio({ onVolver }: PublicarServicioProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="descripcion">Descripci�n *</Label>
+              <Label htmlFor="descripcion">Descripción *</Label>
               <Textarea
                 id="descripcion"
                 placeholder="Describe en detalle el servicio que necesitas..."
@@ -142,20 +141,17 @@ export function PublicarServicio({ onVolver }: PublicarServicioProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="categoria">Categor�a *</Label>
+                <Label htmlFor="categoria">Categoría *</Label>
                 <Select value={categoria} onValueChange={setCategoria}>
-                  <SelectTrigger className="rounded-lg">
-                    <SelectValue placeholder="Selecciona una categor�a" />
+                  <SelectTrigger className="rounded-lg bg-white">
+                    <SelectValue placeholder="Selecciona una categoría" />
                   </SelectTrigger>
-                  <SelectContent>
-                  <SelectItem value={SERVICE_CATEGORIES.CONSTRUCCION}>Construcci�n</SelectItem>
-    <SelectItem value={SERVICE_CATEGORIES.ELECTRICIDAD}>Electricidad</SelectItem>
-    <SelectItem value={SERVICE_CATEGORIES.PLOMERIA}>Plomer�a</SelectItem>
-    <SelectItem value={SERVICE_CATEGORIES.JARDINERIA}>Jardiner�a</SelectItem>
-    <SelectItem value={SERVICE_CATEGORIES.LIMPIEZA}>Limpieza</SelectItem>
-    <SelectItem value={SERVICE_CATEGORIES.PINTURA}>Pintura</SelectItem>
-    <SelectItem value={SERVICE_CATEGORIES.PISCINAS}>Piscinas</SelectItem>
-    <SelectItem value={SERVICE_CATEGORIES.OTROS}>Otros</SelectItem> 
+                  <SelectContent className="bg-white">
+                    {CATEGORIES_ARRAY.map((cat) => (
+                      <SelectItem key={cat} value={cat} className="bg-white hover:bg-gray-100">
+                        {cat}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -173,10 +169,10 @@ export function PublicarServicio({ onVolver }: PublicarServicioProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="direccion">Direcci�n *</Label>
+              <Label htmlFor="direccion">Dirección *</Label>
               <Input
                 id="direccion"
-                placeholder="Calle y n�mero"
+                placeholder="Calle y número"
                 value={direccion}
                 onChange={(e) => setDireccion(e.target.value)}
                 className="rounded-lg"

@@ -80,7 +80,7 @@ export function SolicitanteDashboard({ onPublicarServicio, onVerDetalle }: Solic
             <span className="text-purple-600">Ver cotizaciones ?</span>
           )}
           {servicio.estado === SERVICE_STATES.ASIGNADO && (
-            <span className="text-green-600">? Cotizaci�n seleccionada</span>
+            <span className="text-green-600">✓ Cotización seleccionada</span>
           )}
           {servicio.estado === SERVICE_STATES.COMPLETADO && (
             <span className="text-gray-600">? Completado</span>
@@ -158,8 +158,8 @@ export function SolicitanteDashboard({ onPublicarServicio, onVerDetalle }: Solic
             {servicios.length === 0 ? (
               <Card className="p-12 text-center rounded-lg">
                 <Package className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500">No has publicado servicios a�n</p>
-                <p className="text-sm text-gray-400 mt-2">Haz clic en el bot�n + para crear tu primer servicio</p>
+                <p className="text-gray-500">No has publicado servicios aún</p>
+                <p className="text-sm text-gray-400 mt-2">Haz clic en el botón + para crear tu primer servicio</p>
               </Card>
             ) : (
               filtrarServicios('todos').map(servicio => (
@@ -198,7 +198,7 @@ export function SolicitanteDashboard({ onPublicarServicio, onVerDetalle }: Solic
             {filtrarServicios(SERVICE_STATES.COMPLETADO).length === 0 ? (
               <Card className="p-12 text-center rounded-lg">
                 <CheckCircle className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500">A�n no tienes servicios completados</p>
+                <p className="text-gray-500">Aún no tienes servicios completados</p>
               </Card>
             ) : (
               filtrarServicios(SERVICE_STATES.COMPLETADO).map(servicio => (

@@ -1,64 +1,56 @@
 /**
- * Categorías de Servicios
+ * Categorías UNIFICADAS para Servicios e Insumos
  * Trabajo Práctico: Marketplace de Servicios con Insumos
+ * 
+ * IMPORTANTE: Usar estas categorías en TODA la aplicación para mantener consistencia
  */
 
-export const SERVICE_CATEGORIES = {
-  JARDINERIA: 'jardineria',
-  PISCINAS: 'piscinas',
-  LIMPIEZA: 'limpieza',
-  CONSTRUCCION: 'construccion',
-  ELECTRICIDAD: 'electricidad',
-  PLOMERIA: 'plomeria',
-  PINTURA: 'pintura',
-  OTROS: 'otros',
+export const CATEGORIES = {
+  CONSTRUCCION: 'Construcción',
+  ELECTRICIDAD: 'Electricidad',
+  PLOMERIA: 'Plomería',
+  PINTURA: 'Pintura',
+  JARDINERIA: 'Jardinería',
+  LIMPIEZA: 'Limpieza',
+  PISCINAS: 'Piscinas',
+  QUIMICOS_PISCINA: 'Químicos para Piscina',
+  REVESTIMIENTOS: 'Revestimientos',
+  HERRAMIENTAS: 'Herramientas',
+  OTROS: 'Otros',
 } as const;
 
-export type ServiceCategory = typeof SERVICE_CATEGORIES[keyof typeof SERVICE_CATEGORIES];
+export const CATEGORIES_ARRAY = Object.values(CATEGORIES);
 
-/**
- * Nombres legibles de categorías
- */
-export const CATEGORY_NAMES: Record<ServiceCategory, string> = {
-  [SERVICE_CATEGORIES.JARDINERIA]: 'Jardinería',
-  [SERVICE_CATEGORIES.PISCINAS]: 'Piscinas',
-  [SERVICE_CATEGORIES.LIMPIEZA]: 'Limpieza',
-  [SERVICE_CATEGORIES.CONSTRUCCION]: 'Construcción',
-  [SERVICE_CATEGORIES.ELECTRICIDAD]: 'Electricidad',
-  [SERVICE_CATEGORIES.PLOMERIA]: 'Plomería',
-  [SERVICE_CATEGORIES.PINTURA]: 'Pintura',
-  [SERVICE_CATEGORIES.OTROS]: 'Otros',
-};
+export type Category = typeof CATEGORIES[keyof typeof CATEGORIES];
+
+// Alias para compatibilidad con código existente
+export const SERVICE_CATEGORIES = CATEGORIES;
+export type ServiceCategory = Category;
 
 /**
  * Unidades de medida para insumos
  */
 export const UNITS = {
-  LITROS: 'lts',
+  UNIDADES: 'unidades',
   KILOGRAMOS: 'kg',
-  GRAMOS: 'g',
-  METROS: 'm',
-  METROS_CUADRADOS: 'm2',
-  METROS_CUBICOS: 'm3',
-  UNIDADES: 'unidad',
+  LITROS: 'litros',
+  METROS: 'metros',
+  METROS_CUADRADOS: 'm²',
   SACOS: 'saco',
   CAJAS: 'caja',
+  PAQUETES: 'paquete',
 } as const;
 
-export type Unit = typeof UNITS[keyof typeof UNITS];
+export const UNITS_OPTIONS = [
+  { value: UNITS.UNIDADES, label: 'Unidad' },
+  { value: UNITS.KILOGRAMOS, label: 'Kilogramo (kg)' },
+  { value: UNITS.LITROS, label: 'Litro' },
+  { value: UNITS.METROS, label: 'Metro' },
+  { value: UNITS.METROS_CUADRADOS, label: 'Metro cuadrado (m²)' },
+  { value: UNITS.SACOS, label: 'Saco' },
+  { value: UNITS.CAJAS, label: 'Caja' },
+  { value: UNITS.PAQUETES, label: 'Paquete' },
+] as const;
 
-/**
- * Nombres legibles de unidades
- */
-export const UNIT_NAMES: Record<Unit, string> = {
-  [UNITS.LITROS]: 'Litros',
-  [UNITS.KILOGRAMOS]: 'Kilogramos',
-  [UNITS.GRAMOS]: 'Gramos',
-  [UNITS.METROS]: 'Metros',
-  [UNITS.METROS_CUADRADOS]: 'Metros Cuadrados',
-  [UNITS.METROS_CUBICOS]: 'Metros Cúbicos',
-  [UNITS.UNIDADES]: 'Unidades',
-  [UNITS.SACOS]: 'Sacos',
-  [UNITS.CAJAS]: 'Cajas',
-};
+export type Unit = typeof UNITS[keyof typeof UNITS];
 

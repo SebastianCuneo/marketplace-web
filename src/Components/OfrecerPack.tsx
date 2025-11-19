@@ -171,7 +171,7 @@ export function OfrecerPack({ onVolver }: OfrecerPackProps) {
           {items.length === 0 ? (
             <div className="p-8 text-center border-2 border-dashed rounded-lg">
               <Package className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-              <p className="text-gray-500">A�n no has agregado items</p>
+              <p className="text-gray-500">Aún no has agregado items</p>
               <Button
                 onClick={agregarItem}
                 variant="outline"
@@ -197,7 +197,7 @@ export function OfrecerPack({ onVolver }: OfrecerPackProps) {
                       <SelectContent>
                         {mockInsumosCatalogo.map(insumo => (
                           <SelectItem key={insumo.id} value={insumo.id}>
-                            {insumo.nombre} - �{insumo.precioUnitario}/{insumo.unidad}
+                            {insumo.nombre} - ${insumo.precioUnitario}/{insumo.unidad}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -218,7 +218,7 @@ export function OfrecerPack({ onVolver }: OfrecerPackProps) {
                   <div className="w-32 space-y-2">
                     <Label>Subtotal</Label>
                     <div className="h-10 px-3 flex items-center bg-gray-50 rounded-lg">
-                      <span className="text-[#2D7CF6]">�{item.subtotal.toFixed(2)}</span>
+                      <span className="text-[#2D7CF6]">${item.subtotal.toFixed(2)}</span>
                     </div>
                   </div>
 
@@ -236,7 +236,7 @@ export function OfrecerPack({ onVolver }: OfrecerPackProps) {
               <div className="flex justify-end items-center p-4 bg-gray-50 rounded-lg">
                 <div className="text-right">
                   <p className="text-sm text-gray-500">Total</p>
-                  <p className="text-2xl text-[#2D7CF6]">�{calcularTotal().toFixed(2)}</p>
+                  <p className="text-2xl text-[#2D7CF6]">${calcularTotal().toFixed(2)}</p>
                 </div>
               </div>
             </div>
@@ -249,7 +249,7 @@ export function OfrecerPack({ onVolver }: OfrecerPackProps) {
             <Label htmlFor="notas">Notas adicionales</Label>
             <Textarea
               id="notas"
-              placeholder="Informaci�n sobre entrega, descuentos, etc."
+              placeholder="Información sobre entrega, descuentos, etc."
               value={notas}
               onChange={(e) => setNotas(e.target.value)}
               rows={3}

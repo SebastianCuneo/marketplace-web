@@ -15,7 +15,7 @@
 import React, { createContext, useReducer, useContext, ReactNode, useEffect } from 'react';
 import { Servicio, Cotizacion, OfertaInsumos } from '../types/index';
 import { SERVICE_STATES, ServiceState, isValidTransition, canReceiveQuotes } from '../constants/serviceStates';
-import { mockServicios, mockCotizaciones, mockOfertasInsumos } from '../data/mockData'; 
+import { mockServicios, mockCotizaciones, mockOfertasInsumos } from '../data/mockData';
 import { useAuth } from './AuthContext';
 
 // ============================================================================
