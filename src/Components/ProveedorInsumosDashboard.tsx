@@ -1,25 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Plus, Package, Edit, Trash2 } from 'lucide-react';
-import { InsumosCatalogo } from '../core';
-import { mockInsumosCatalogo } from '../core';
+import { InsumosCatalogo, useInsumos, useAuth } from '../core';
 import { toast } from 'sonner';
 import React from 'react';
 
 interface ProveedorInsumosDashboardProps {
   onAgregarInsumo: () => void;
+  onEditarInsumo: (insumo: InsumosCatalogo) => void;
   onOfrecerPack: () => void;
 }
 
-export function ProveedorInsumosDashboard({ onAgregarInsumo, onOfrecerPack }: ProveedorInsumosDashboardProps) {
-  const [insumos, setInsumos] = useState<InsumosCatalogo[]>(mockInsumosCatalogo);
+export function ProveedorInsumosDashboard({ onAgregarInsumo, onEditarInsumo, onOfrecerPack }: ProveedorInsumosDashboardProps) {
+  const { state, deleteSupply } = useInsumos();
+  const { user } = useAuth();
+  
+  // Filtrar solo los insumos del proveedor actual
+  const insumos = state.supplies.filter(s => s.proveedorId === user?.id);
 
   const handleEliminar = (id: string) => {
-    setInsumos(insumos.filter(i => i.id !== id));
-    toast.success('Insumo eliminado del cat�logo');
+    deleteSupply(id);
+    toast.success('Insumo eliminado del catálogo');
+  };
+  
+  const handleEditar = (insumo: InsumosCatalogo) => {
+    onEditarInsumo(insumo);
   };
 
   const categoriasUnicas = Array.from(new Set(insumos.map(i => i.categoria)));
@@ -35,6 +43,7 @@ export function ProveedorInsumosDashboard({ onAgregarInsumo, onOfrecerPack }: Pr
           <Button
             variant="ghost"
             size="icon"
+            onClick={() => handleEditar(insumo)}
             className="rounded-lg"
           >
             <Edit className="w-4 h-4" />
@@ -53,7 +62,7 @@ export function ProveedorInsumosDashboard({ onAgregarInsumo, onOfrecerPack }: Pr
       <div className="grid grid-cols-2 gap-4 mb-3">
         <div>
           <p className="text-sm text-gray-500">Precio unitario</p>
-          <p className="text-xl text-[#2D7CF6]">�{insumo.precioUnitario.toFixed(2)}</p>
+          <p className="text-xl text-[#2D7CF6]">${insumo.precioUnitario.toFixed(2)}</p>
         </div>
         <div>
           <p className="text-sm text-gray-500">Stock disponible</p>
@@ -79,7 +88,7 @@ export function ProveedorInsumosDashboard({ onAgregarInsumo, onOfrecerPack }: Pr
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl mb-1">Cat�logo de Insumos</h1>
+            <h1 className="text-2xl mb-1">Catálogo de Insumos</h1>
             <p className="text-gray-500">Gestiona tu inventario y ofertas</p>
           </div>
         </div>

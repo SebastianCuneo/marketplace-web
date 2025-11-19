@@ -29,6 +29,7 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState('login'); // Pantalla actual
   const [activeTab, setActiveTab] = useState('servicios'); // Pestaña activa en el dashboard
   const [selectedServicio, setSelectedServicio] = useState(null); // Servicio seleccionado
+  const [selectedInsumo, setSelectedInsumo] = useState(null); // Insumo seleccionado para editar
 
   // Función para manejar el login del usuario
   const handleLogin = () => {
@@ -132,7 +133,14 @@ export default function App() {
         } else {
           return (
             <ProveedorInsumosDashboard
-              onAgregarInsumo={() => setCurrentScreen('agregar-insumo')}
+              onAgregarInsumo={() => {
+                setSelectedInsumo(null); // Limpiar insumo seleccionado para modo crear
+                setCurrentScreen('agregar-insumo');
+              }}
+              onEditarInsumo={(insumo) => {
+                setSelectedInsumo(insumo); // Establecer insumo a editar
+                setCurrentScreen('agregar-insumo');
+              }}
               onOfrecerPack={() => setCurrentScreen('ofrecer-pack')}
             />
           );
@@ -186,7 +194,9 @@ export default function App() {
       case 'agregar-insumo':
         return (
           <AgregarInsumo
+            insumoToEdit={selectedInsumo}
             onVolver={() => {
+              setSelectedInsumo(null); // Limpiar insumo seleccionado
               setCurrentScreen('dashboard');
               setActiveTab('catalogo');
             }}

@@ -18,7 +18,7 @@ export function Comparador({ servicio, onVolver }: ComparadorProps) {
 
   const handleSeleccionar = (id: string) => {
     selectQuotation(servicio.id, id);
-    toast.success('Cotizaci�n seleccionada - Servicio asignado');
+    toast.success('Cotización seleccionada - Servicio asignado');
     // Esperar un poco antes de volver para que el usuario vea el mensaje
     setTimeout(() => onVolver(), 1500);
   };
@@ -70,7 +70,7 @@ export function Comparador({ servicio, onVolver }: ComparadorProps) {
                       <Euro className="w-4 h-4" />
                       <span className="text-sm">Precio</span>
                     </div>
-                    <p className="text-xl text-[#2D7CF6]">�{cotizacion.precio.toLocaleString()}</p>
+                    <p className="text-xl text-[#2D7CF6]">${cotizacion.precio.toLocaleString()}</p>
                   </div>
                   <div className="text-center">
                     <div className="flex items-center justify-center gap-2 text-gray-500 mb-1">
@@ -142,7 +142,7 @@ export function Comparador({ servicio, onVolver }: ComparadorProps) {
                     {cotizaciones.map((cotizacion) => (
                       <td key={cotizacion.id} className="p-4 text-center">
                         <p className="text-xl text-[#2D7CF6]">
-                          �{cotizacion.precio.toLocaleString()}
+                          ${cotizacion.precio.toLocaleString()}
                         </p>
                       </td>
                     ))}
@@ -193,7 +193,7 @@ export function Comparador({ servicio, onVolver }: ComparadorProps) {
                   </tr>
 
                   <tr className="border-t">
-                    <td className="p-4">Acci�n</td>
+                    <td className="p-4">Acción</td>
                     {cotizaciones.map((cotizacion) => (
                       <td key={cotizacion.id} className="p-4">
                         <Button

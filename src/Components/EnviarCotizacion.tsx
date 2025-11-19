@@ -64,7 +64,7 @@ export function EnviarCotizacion({ servicio, onVolver }: EnviarCotizacionProps) 
     }
     
     if (!user) {
-      toast.error('Debes estar logueado para enviar una cotizaci�n');
+      toast.error('Debes estar logueado para enviar una cotización');
       return;
     }
     
@@ -84,7 +84,7 @@ export function EnviarCotizacion({ servicio, onVolver }: EnviarCotizacionProps) 
     };
     
     addQuotation(nuevaCotizacion);
-    toast.success('Cotizaci�n enviada exitosamente');
+    toast.success('Cotización enviada exitosamente');
     onVolver();
   };
 
@@ -102,7 +102,7 @@ export function EnviarCotizacion({ servicio, onVolver }: EnviarCotizacionProps) 
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div>
-            <h1 className="text-2xl">Enviar Cotizaci�n</h1>
+            <h1 className="text-2xl">Enviar Cotización</h1>
             <p className="text-gray-500">{servicio.titulo}</p>
           </div>
         </div>
@@ -122,7 +122,7 @@ export function EnviarCotizacion({ servicio, onVolver }: EnviarCotizacionProps) 
         <Card className="p-6 space-y-6 rounded-lg">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="precio">Precio total (�) *</Label>
+              <Label htmlFor="precio">Precio total ($) *</Label>
               <Input
                 id="precio"
                 type="number"
@@ -134,10 +134,10 @@ export function EnviarCotizacion({ servicio, onVolver }: EnviarCotizacionProps) 
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="plazo">Plazo de ejecuci�n *</Label>
+              <Label htmlFor="plazo">Plazo de ejecución *</Label>
               <Input
                 id="plazo"
-                placeholder="ej. 15 d�as"
+                placeholder="ej. 15 días"
                 value={plazo}
                 onChange={(e) => setPlazo(e.target.value)}
                 className="rounded-lg"
@@ -149,7 +149,7 @@ export function EnviarCotizacion({ servicio, onVolver }: EnviarCotizacionProps) 
             <Label htmlFor="notas">Notas adicionales</Label>
             <Textarea
               id="notas"
-              placeholder="Informaci�n adicional sobre tu cotizaci�n..."
+              placeholder="Información adicional sobre tu cotización..."
               value={notas}
               onChange={(e) => setNotas(e.target.value)}
               rows={3}
@@ -162,7 +162,7 @@ export function EnviarCotizacion({ servicio, onVolver }: EnviarCotizacionProps) 
             <div className="flex justify-between items-center">
               <div>
                 <Label>Servicios incluidos</Label>
-                <p className="text-sm text-gray-500">�Qu� incluye tu cotizaci�n?</p>
+                <p className="text-sm text-gray-500">¿Qué incluye tu cotización?</p>
               </div>
               <Button
                 type="button"
@@ -180,7 +180,7 @@ export function EnviarCotizacion({ servicio, onVolver }: EnviarCotizacionProps) 
               {itemsIncluidos.map((item, index) => (
                 <div key={index} className="flex gap-2">
                   <Input
-                    placeholder="ej. Instalaci�n completa"
+                    placeholder="ej. Instalación completa"
                     value={item}
                     onChange={(e) => actualizarItemIncluido(index, e.target.value)}
                     className="rounded-lg"
@@ -205,7 +205,7 @@ export function EnviarCotizacion({ servicio, onVolver }: EnviarCotizacionProps) 
             <div className="flex justify-between items-center">
               <div>
                 <Label>No incluye</Label>
-                <p className="text-sm text-gray-500">�Qu� no incluye tu cotizaci�n?</p>
+                <p className="text-sm text-gray-500">¿Qué no incluye tu cotización?</p>
               </div>
               <Button
                 type="button"
@@ -256,7 +256,7 @@ export function EnviarCotizacion({ servicio, onVolver }: EnviarCotizacionProps) 
               onClick={handleEnviar}
               className="flex-1 bg-[#2D7CF6] hover:bg-[#1e5fd4] rounded-lg"
             >
-              Enviar cotizaci�n
+              Enviar cotización
             </Button>
           </div>
         </Card>

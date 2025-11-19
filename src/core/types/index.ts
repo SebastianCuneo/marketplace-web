@@ -18,6 +18,7 @@ export interface Usuario {
   id: string;
   nombre: string;
   email: string;
+  password?: string; // Solo para autenticación hardcodeada
   rol: UserRole;
   telefono?: string;
   rating?: number;
