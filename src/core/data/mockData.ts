@@ -1,0 +1,223 @@
+import { ROLES } from '../constants/roles';
+import { SERVICE_STATES } from '../constants/serviceStates';
+import { Servicio, Cotizacion, InsumosCatalogo, OfertaInsumos, Usuario } from '../types';
+
+export const mockUsuarios: Usuario[] = [
+  {
+    id: '1',
+    nombre: 'Juan Pérez',
+    email: 'juan@example.com',
+    rol: ROLES.SOLICITANTE,
+    telefono: '+34 600 123 456',
+  },
+  {
+    id: '2',
+    nombre: 'María García',
+    email: 'maria@example.com',
+    rol: ROLES.PROVEEDOR_SERVICIO,
+    telefono: '+34 600 234 567',
+    rating: 4.8,
+  },
+  {
+    id: '3',
+    nombre: 'Carlos López',
+    email: 'carlos@example.com',
+    rol: ROLES.PROVEEDOR_INSUMOS,
+    telefono: '+34 600 345 678',
+    rating: 4.5,
+  },
+];
+
+export const mockServicios: Servicio[] = [
+  {
+    id: 'srv-1',
+    titulo: 'Remodelación de Cocina',
+    descripcion: 'Necesito remodelar la cocina de mi casa, incluye instalación de muebles y encimera',
+    direccion: 'Calle Mayor 123',
+    ciudad: 'Madrid',
+    fecha: '2025-11-15',
+    fechaPreferida: '2025-11-15',
+    categoria: 'Construcción',
+    estado: SERVICE_STATES.PUBLICADO,
+    solicitanteId: '1',
+    insumos: [
+      { id: 'i1', nombre: 'Cemento', cantidad: 10, unidad: 'sacos' },
+      { id: 'i2', nombre: 'Azulejos', cantidad: 25, unidad: 'm²' },
+      { id: 'i3', nombre: 'Pintura', cantidad: 5, unidad: 'litros' },
+    ],
+    insumosRequeridos: [
+      { id: 'i1', nombre: 'Cemento', cantidad: 10, unidad: 'sacos' },
+      { id: 'i2', nombre: 'Azulejos', cantidad: 25, unidad: 'm²' },
+      { id: 'i3', nombre: 'Pintura', cantidad: 5, unidad: 'litros' },
+    ],
+  },
+  {
+    id: 'srv-2',
+    titulo: 'Instalación Eléctrica',
+    descripcion: 'Instalación completa de sistema eléctrico para oficina nueva',
+    direccion: 'Avenida Diagonal 456',
+    ciudad: 'Barcelona',
+    fecha: '2025-11-20',
+    fechaPreferida: '2025-11-20',
+    categoria: 'Electricidad',
+    estado: SERVICE_STATES.ASIGNADO,
+    solicitanteId: '1',
+    cotizacionSeleccionada: 'cot-3',
+    insumos: [
+      { id: 'i4', nombre: 'Cable eléctrico', cantidad: 100, unidad: 'metros' },
+      { id: 'i5', nombre: 'Enchufes', cantidad: 20, unidad: 'unidades' },
+    ],
+    insumosRequeridos: [
+      { id: 'i4', nombre: 'Cable eléctrico', cantidad: 100, unidad: 'metros' },
+      { id: 'i5', nombre: 'Enchufes', cantidad: 20, unidad: 'unidades' },
+    ],
+  },
+  {
+    id: 'srv-3',
+    titulo: 'Pintura de Fachada',
+    descripcion: 'Necesito pintar la fachada exterior del edificio',
+    direccion: 'Plaza España 789',
+    ciudad: 'Valencia',
+    fecha: '2025-12-01',
+    fechaPreferida: '2025-12-01',
+    categoria: 'Pintura',
+    estado: SERVICE_STATES.PUBLICADO,
+    solicitanteId: '1',
+    insumos: [
+      { id: 'i6', nombre: 'Pintura exterior', cantidad: 50, unidad: 'litros' },
+      { id: 'i7', nombre: 'Rodillos', cantidad: 10, unidad: 'unidades' },
+    ],
+    insumosRequeridos: [
+      { id: 'i6', nombre: 'Pintura exterior', cantidad: 50, unidad: 'litros' },
+      { id: 'i7', nombre: 'Rodillos', cantidad: 10, unidad: 'unidades' },
+    ],
+  },
+];
+
+export const mockCotizaciones: Cotizacion[] = [
+  {
+    id: 'cot-1',
+    servicioId: 'srv-1',
+    proveedorId: '2',
+    proveedorNombre: 'Construcciones García',
+    proveedorRating: 4.8,
+    precio: 3500,
+    plazo: '15 días',
+    notas: 'Incluye mano de obra y garantía de 2 años',
+    itemsIncluidos: ['Instalación de muebles', 'Colocación de encimera', 'Limpieza final'],
+    itemsExcluidos: ['Insumos', 'Demolición previa'],
+    estado: 'enviada',
+    fechaEnvio: '2025-10-20',
+  },
+  {
+    id: 'cot-2',
+    servicioId: 'srv-1',
+    proveedorId: 'p2',
+    proveedorNombre: 'Reformas Integrales SL',
+    proveedorRating: 4.5,
+    precio: 4200,
+    plazo: '12 días',
+    notas: 'Trabajo express, incluye diseño personalizado',
+    itemsIncluidos: ['Diseño 3D', 'Instalación', 'Garantía 3 años'],
+    itemsExcluidos: ['Materiales'],
+    estado: 'enviada',
+    fechaEnvio: '2025-10-21',
+  },
+  {
+    id: 'cot-3',
+    servicioId: 'srv-2',
+    proveedorId: '2',
+    proveedorNombre: 'Electricidad Profesional',
+    proveedorRating: 4.9,
+    precio: 2800,
+    plazo: '7 días',
+    notas: 'Certificación incluida',
+    itemsIncluidos: ['Instalación completa', 'Certificado eléctrico', 'Revisión'],
+    itemsExcluidos: ['Materiales eléctricos'],
+    estado: 'aceptada',
+    fechaEnvio: '2025-10-18',
+  },
+];
+
+export const mockInsumosCatalogo: InsumosCatalogo[] = [
+  {
+    id: 'cat-1',
+    nombre: 'Cemento Portland',
+    categoria: 'Construcción',
+    unidad: 'saco 50kg',
+    precioUnitario: 8.5,
+    stock: 200,
+    proveedorId: '3',
+  },
+  {
+    id: 'cat-2',
+    nombre: 'Azulejos cerámicos blancos',
+    categoria: 'Revestimientos',
+    unidad: 'm²',
+    precioUnitario: 15.0,
+    stock: 500,
+    proveedorId: '3',
+  },
+  {
+    id: 'cat-3',
+    nombre: 'Pintura acrílica interior',
+    categoria: 'Pintura',
+    unidad: 'litro',
+    precioUnitario: 12.5,
+    stock: 150,
+    proveedorId: '3',
+  },
+  {
+    id: 'cat-4',
+    nombre: 'Cable eléctrico 2.5mm',
+    categoria: 'Electricidad',
+    unidad: 'metro',
+    precioUnitario: 1.2,
+    stock: 1000,
+    proveedorId: '3',
+  },
+  {
+    id: 'cat-5',
+    nombre: 'Enchufe schuko',
+    categoria: 'Electricidad',
+    unidad: 'unidad',
+    precioUnitario: 3.5,
+    stock: 300,
+    proveedorId: '3',
+  },
+];
+
+export const mockOfertasInsumos: OfertaInsumos[] = [
+  {
+    id: 'of-1',
+    servicioId: 'srv-1',
+    proveedorId: '3',
+    proveedorNombre: 'Insumos Pro',
+    items: [
+      {
+        insumoId: 'cat-1',
+        nombre: 'Cemento Portland',
+        cantidad: 10,
+        precioUnitario: 8.5,
+        subtotal: 85,
+      },
+      {
+        insumoId: 'cat-2',
+        nombre: 'Azulejos cerámicos',
+        cantidad: 25,
+        precioUnitario: 15.0,
+        subtotal: 375,
+      },
+      {
+        insumoId: 'cat-3',
+        nombre: 'Pintura acrílica',
+        cantidad: 5,
+        precioUnitario: 12.5,
+        subtotal: 62.5,
+      },
+    ],
+    total: 522.5,
+    notas: 'Entrega en 48h. Descuento del 5% aplicado',
+    fechaEnvio: '2025-10-20',
+  },
+];

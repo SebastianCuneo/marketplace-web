@@ -1,0 +1,39 @@
+/**
+ * AppProvider - Envoltorio de todos los Contexts
+ * Marketplace de Servicios con Insumos
+ * 
+ * Fuente de Verdad: CONTEXTO_PROYECTO_GEMA.md
+ * 
+ * Orden de Providers (importante):
+ * 1. AuthProvider (debe estar primero)
+ * 2. ServicesProvider (depende de Auth)
+ * 3. InsumosProvider (depende de Auth)
+ */
+
+import React, { ReactNode } from 'react';
+import { AuthProvider } from './AuthContext';
+import { ServicesProvider } from './ServicesContext';
+import { InsumosProvider } from './InsumosContext';
+
+interface AppProviderProps {
+  children: ReactNode;
+}
+
+/**
+ * Provider principal que envuelve todos los contexts
+ * Usar en index.js/App.jsx para envolver toda la aplicación
+ */
+export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+  return (
+    <AuthProvider>
+      <ServicesProvider>
+        <InsumosProvider>
+          {children}
+        </InsumosProvider>
+      </ServicesProvider>
+    </AuthProvider>
+  );
+};
+
+export default AppProvider;
+
